@@ -35,41 +35,8 @@ main = function( $ionicPlatform ) {
             tx.executeSql( table_sesion );
         }, function ( e ) {
             alert( 'Error sqlite: ' + e );
-        });
-
-        // //abriendo base de datos como variable global
-        // db = $cordovaSQLite.openDB("cfe.db");
-
-        // alert ( sigesop.getOwnPropertyNames( $cordovaSQLite ) );
-
-        // //creacion de tablas
-        // $cordovaSQLite.execute( db,table_server )
-        // .then(function ( res ) {
-        //         // alert("tabla server: " + res );
-        //     }, function ( err ) {
-        //         // alert("tabla server error: " + err );
-        // });
-
-        // $cordovaSQLite.execute( db,table_sesion )
-        // .then(function ( data ) {
-        //     // alert("tabla sesion: " + data );
-        // }, function ( err ) {
-        //     // alert("tabla sesion error: " + err );
-        // });
-
-        /**********************************************
-         * Consulta a la tabla [server] para configurar
-         * la direccion del servidor ajax
-         *********************************************/ 
-        // var sql = "SELECT server_address, root_server FROM server"
-        // $cordovaSQLite.execute( db, sql )
-        // .then(function ( data ){
-        //     var serverAddressDB = data.rows.item(0).server_address;
-        //     sigesop.ipServidor = serverAddressDB;
-        //     sigesop.raizServidor = 'http://' + serverAddressDB + '/ajax/sistema/';
-        // }, function ( err ){
-
-        // }); 
+            return true;
+        });        
     });
 },
 

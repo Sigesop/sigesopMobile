@@ -18,7 +18,7 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 		/* Estructura de datos valido para iniciar
 		 * sesion dentro del sistema
 		 */
-		var data = {
+		var dataUser = {
 			usuario: {
 				valor: datos.username					
 			},
@@ -30,7 +30,7 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 
 		// Lanzamiento de Ajax al servidor
 		sigesop.query( $http, {
-			data: data,
+			data: dataUser,
 			type: 'POST',
 			class: 'sistema',
 			query: 'solicitudInicioSesion',
@@ -50,14 +50,20 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 										
 					/* ENVIO A LA SIGUIENTE VISTA						
 					 */ 
-					
-					$state.go('main');
+					var sql =
+					"INSERT INTO sesion( user, password, state ) VALUES( ?, ?, 1 )";
+					db.transaction(function ( tx ){
+						tx.executeSql( sql, [ dataUser.usuario.valor, dataUser.clave.valor ] );
+						$state.go('main');
+					}, function ( e ){
+						alert( 'Error al guardar sesion de usuario ' + e );
+						return true;
+					});										
 				} 
 
 				// CUANDO EL USUARIO NO ES VALIDO
 				else {
 					alert( 'Usuario inválido' );
-
 				}
 			},
 			error: function ( data ) {
@@ -66,10 +72,10 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 		});
 
 		// Reinicio de los campos [ username, password ] 
-		$scope.datos = {
-			username: '',
-			password : '',
-		};
+		// $scope.datos = {
+		// 	username: '',
+		// 	password : '',
+		// };
 	};  
 
 	$scope.viewIpServidor = function(form) {
