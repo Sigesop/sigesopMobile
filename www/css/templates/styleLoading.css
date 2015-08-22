@@ -1,0 +1,123 @@
+/*.loader {
+  margin: 100px auto;
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.loading-container .loading {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    color: #fff;
+    font-size: 15px;
+    padding: 20px;
+    text-align: center;
+    text-overflow: ellipsis;
+}
+
+.stick1, .stick2, .stick3, .stick4 {
+  background-color: #333;
+  width: 50px;
+  height: 3px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+  -webkit-animation: sk-cubemove 1.8s infinite linear;
+  animation: sk-cubemove 1.8s infinite linear;
+}
+
+.stick1 {
+  background-color: #e74c3c;
+}
+
+.stick2 {
+  background-color: #3498db;
+  -webkit-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+
+.stick3 {
+  background-color: #2ecc71;
+  -webkit-animation-delay: -1.35s;
+  animation-delay: -1.35s;
+}
+
+.stick4 {
+  background-color: #f1c40f;
+  -webkit-animation-delay: -.45s;
+  animation-delay: -.45s;
+}
+
+@-webkit-keyframes sk-cubemove {
+  25% { -webkit-transform: translateX(42px) rotate(-90deg) scale(0.9) }
+  50% { -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg) }
+  75% { -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.9) }
+  100% { -webkit-transform: rotate(-360deg) }
+}
+
+@keyframes sk-cubemove {
+  25% { 
+    transform: translateX(42px) rotate(-90deg) scale(0.9);
+    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.9);
+  } 50% { 
+    transform: translateX(42px) translateY(42px) rotate(-179deg);
+    -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);
+  } 50.1% { 
+    transform: translateX(42px) translateY(42px) rotate(-180deg);
+    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
+  } 75% { 
+    transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.9);
+    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.9);
+  } 100% { 
+    transform: rotate(-360deg);
+    -webkit-transform: rotate(-360deg);
+  }
+}*/
+
+
+@import url(http://fonts.googleapis.com/css?family=Montserrat);
+
+@keyframes breathe {
+  0% {
+    letter-spacing:0;
+    text-shadow:0 0 1px white;
+  }
+  30% {
+    color:transparent;
+  }
+  50% {
+    letter-spacing:100px;
+    font-size:0;
+    text-shadow:0 0 6px white;
+  }
+  60% {
+    color:transparent;
+  }
+  100% {
+    letter-spacing:0;
+    text-shadow:0 0 1px white;
+  }
+}
+
+html {
+  text-align:center;
+  background-color:#2e2e2e;
+}
+.load{
+  margin-top:15%;
+  color:white;
+  font-size:2em;
+  font-family: 'Montserrat', sans-serif;
+  animation:breathe 3s ease infinite;
+}
+
+.loading-container .loading {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    color: #fff;
+    font-size: 25px;
+    padding: 20px;
+    text-align: center;
+    text-overflow: ellipsis;
+}

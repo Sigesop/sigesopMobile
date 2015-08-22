@@ -1,0 +1,11 @@
+.body-main {
+  font: 16px Helvetica;
+  background: #009300;
+}
+
+.h1-main{
+  font-size: 14px;
+  text-align: center;
+  /*font-weight: 100;
+  margin-bottom: 30px;*/
+}

@@ -1,0 +1,38 @@
+.popUp-format.popup-container .popup {
+  max-width: 80%;
+  height: relative;
+  position: relative;
+  margin: 0 auto;
+  /*top: 0%;*/
+  border-radius: 30px;
+}
+
+.popUp-format .popup {
+/*  top: -30%;
+  left: 0px;
+  right: 0px;
+  left: 0px;*/
+  margin-top: 100%;
+}
+.popUp-format .popup-head {
+  border: none;
+}
+
+.popUp-format .popup-title {
+  color: #000000 !important;
+  margin-bottom: 15px;
+  font-size:18px;
+  font-family: "Comic Sans MS", "Comic Sans";
+}
+
+.popUp-format .popup-sub-title {
+  color: #000000 !important;
+  margin-bottom: 5px;
+  font-size:16px;
+  font-family: "Comic Sans MS", "Comic Sans";
+}
+
+.popUp-format .popup-buttons {
+  display: none;
+}
+

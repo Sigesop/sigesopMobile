@@ -1,0 +1,62 @@
+<ion-view class="body-login" view-title="login">  
+    <ion-content class="padding">
+        <form name="loginForm" novalidate="" ng-submit="signIn(authorizationForm, authorization)"> 
+            <div class="list section-login">
+                <span class="span-login imagen-login">
+                    <img class="imagen-login" src="img/cfe-logo.png"> 
+                </span>
+
+                <h1 class="h1-login">Iniciar sesión</h1>
+                <input 
+                    ng-class=" {'has-errors-login' : loginForm.username.$invalid, 'no-errors-login' : loginForm.username.$valid }" 
+                    class="input-login" 
+                    type="text" 
+                    name="username" 
+                    placeholder="Usuario" 
+                    ng-model="datos.username" 
+                    ng-minlength="1" 
+                    ng-maxlength="16" 
+                    required
+                >
+
+                <div 
+                    class="error-container" 
+                    ng-show="loginForm.username.$error" 
+                    ng-messages="loginForm.username.$error" 
+                    ng-messages-include="view/errores/listaErroresLogin.html">
+                </div>
+
+                <input 
+                    ng-class="{ 'has-errors-login' : loginForm.password.$invalid, 'no-errors-login' : loginForm.password.$valid}" 
+                    class="input-login" 
+                    type="password" 
+                    name="password" 
+                    placeholder="Contraseña" 
+                    ng-model="datos.password" 
+                    ng-minlength="1" 
+                    required
+                >
+
+                <div 
+                    class="error-container" 
+                    ng-show="loginForm.password.$error" 
+                    ng-messages="loginForm.password.$error" 
+                    ng-messages-include="view/errores/listaErroresLogin.html">
+                </div>  
+
+                <button 
+                    ng-disabled="loginForm.$invalid" 
+                    ng-click="getDatos(loginForm, datos)" 
+                    class="button button-block button-login" 
+                    type="submit" > Aceptar
+                </button>
+
+                <a 
+                    ng-click="viewIpServidor()" 
+                    class="a-login" 
+                    href='#' > Dirección IP del servidor
+                </a>
+            </div>     
+        </form>   
+    </ion-content>
+</ion-view>
