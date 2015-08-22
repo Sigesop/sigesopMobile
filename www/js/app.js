@@ -1,11 +1,27 @@
 document.addEventListener("deviceready", function () {
     db = window.sqlitePlugin.openDatabase({name: "cfe.db"});
+
+    /* Propiedades de Tx
+     * db
+     * error
+     * executes
+     * fn
+     * readOnly
+     * success
+     * txlock    
+     */ 
+    
+    /* Propiedades de Res
+     * insertId
+     * rows
+     * rowsAffected
+     */
 }, false);
 
 //confuguracion app  
 var 
 
-main = function( $ionicPlatform ) {
+main = function( $ionicPlatform, $state ) {
     $ionicPlatform.ready(function() {
         if(window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar( true );
@@ -20,23 +36,59 @@ main = function( $ionicPlatform ) {
         var 
 
         table_server = "CREATE TABLE IF NOT EXISTS server(" +
-                                "server_address   char(15)         primary key," + 
-                                "root_server      varchar(100)" + 
-                            ")",
+                            "server_address   char(15)         primary key," + 
+                            "root_server      varchar(100)" + 
+                        ")",
 
         table_sesion =  "CREATE TABLE IF NOT EXISTS sesion(" +
-                                "user          varchar(16)      primary key," + 
-                                "password      char(50)," +
-                                "state         boolean"+ 
-                            ")";
+                            "user          varchar(16)      primary key," + 
+                            "password      char(50)," +
+                            "state         boolean"+ 
+                        ")",
+
+        user_active =    "SELECT user, password FROM sesion WHERE state = 1",
+
+        server_address = "SELECT server_address, root_server FROM server";
 
         db.transaction(function ( tx ) {
+            /**********************************************
+             * Creacion de las tablas de datos
+             *********************************************/
             tx.executeSql( table_server );
             tx.executeSql( table_sesion );
+
+            /**********************************************
+             * Consulta a la tabla [server] para configurar
+             * la direccion del servidor ajax
+             *********************************************/
+            tx.executeSql( server_address, [], function ( tx, res ) {
+                if ( res.rows.length > 0 ) {
+                    var serverAddressDB = res.rows.item(0).server_address;                    
+                    // configuramos la libreria
+                    sigesop.ipServidor = serverAddressDB;
+                    sigesop.raizServidor = 'http://' + serverAddressDB + '/ajax/sistema/';
+                }
+            });
+
+            /**********************************************
+             * Consulta a la tabla [sesion] para configurar
+             * el inicio automatico de sesion y guardar
+             * [user, password] en la sesion local del navegador
+             *********************************************/
+            tx.executeSql( user_active, [], function ( tx, res ) {          
+                if ( res.rows.length > 0 ) {
+                    //guardamos usuario actual en navegador
+                    localStorage.sesion = {
+                        usuario: res.rows.item(0).user,
+                        password: res.rows.item(0).password
+                    }
+                    $state.go('main');
+                } 
+            });
         }, function ( e ) {
-            alert( 'Error sqlite: ' + e );
+            alert( 'Error en creacion de tablas. ' + e );
             return true;
-        });        
+        });
     });
 },
 

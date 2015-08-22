@@ -9,38 +9,25 @@ controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory, $ion
     }
 
     /**********************************************
-     * Consulta a la tabla [server] para configurar
-     * la direccion del servidor ajax
+     * fill data boxes
      *********************************************/
-    var sql = "SELECT server_address, root_server FROM server";
-    db.transaction(function ( tx ) {
-        tx.executeSql( sql, [], function ( tx, data ) {
-            var 
-                serverAddressDB = data.rows.item(0).server_address,
-                regExpIP = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9s][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
+    var 
+        regExpIP = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9s][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/,
+        serverAddressDB = sigesop.ipServidor || '';
 
-            // Si es una IP fragmentamos la cadena
-            if ( regExpIP.test( serverAddressDB ) ) {
-                var arr = serverAddressDB.splitParametros( '.' );
-                
-                $scope.ip.ip1 = arr[0];
-                $scope.ip.ip2 = arr[1];
-                $scope.ip.ip3 = arr[2];
-                $scope.ip.ip4 = arr[3];
-            }
-                
-            else $scope.dominio = serverAddressDB;
+    // Si es una IP fragmentamos la cadena
+    if ( regExpIP.test( serverAddressDB ) ) {
+        var arr = serverAddressDB.splitParametros( '.' );
+        
+        $scope.ip.ip1 = arr[0];
+        $scope.ip.ip2 = arr[1];
+        $scope.ip.ip3 = arr[2];
+        $scope.ip.ip4 = arr[3];
+    }
+        
+    else $scope.dominio = serverAddressDB;
 
-            // configuramos la libreria
-            sigesop.ipServidor = serverAddressDB;
-            sigesop.raizServidor = 'http://' + serverAddressDB + '/ajax/sistema/';
-            
-        });
-    }, function ( e ) {
-
-    }); 
-
-
+    // click event for get data from views
     $scope.getServer = function ( form, data ) {
         var serverAddress;
 
@@ -69,6 +56,7 @@ controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory, $ion
         });
     };
 
+    // click event for back button on 
     $scope.backButton = function ( form ) {
         $state.go('login');
         
@@ -78,8 +66,6 @@ controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory, $ion
         //     duration: 5000
         // });
     };
-
-
 }
 
 nameApp.controller( 'controlIpServer', controlIpServer );

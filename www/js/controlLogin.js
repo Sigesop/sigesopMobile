@@ -4,16 +4,16 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 	$scope.datos = {
 		username: '',
 		password : '',
-	}; 
+	};
+
+	/* verificamos si existe un usuario logeado
+	 * y nos saltamos la vista de login	
+	 */
 
 	$scope.getDatos = function(form, datos) {
 		if( !form.$valid ) {
 			return -1;
 		}
-		//eliminar el historial de navegacion de la aplicacion
-		//$ionicHistory.clearHistory();
-  		//$ionicHistory.clearCache();
-      	
 
 		/* Estructura de datos valido para iniciar
 		 * sesion dentro del sistema
@@ -54,11 +54,11 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 					"INSERT INTO sesion( user, password, state ) VALUES( ?, ?, 1 )";
 					db.transaction(function ( tx ){
 						tx.executeSql( sql, [ dataUser.usuario.valor, dataUser.clave.valor ] );
-						$state.go('main');
+						$state.go('main');	
 					}, function ( e ){
-						alert( 'Error al guardar sesion de usuario ' + e );
-						return true;
-					});										
+						alert( 'Error guardando sesion. ' + e )
+					})
+					
 				} 
 
 				// CUANDO EL USUARIO NO ES VALIDO
@@ -71,6 +71,10 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 			}
 		});
 
+		//eliminar el historial de navegacion de la aplicacion
+		//$ionicHistory.clearHistory();
+  		//$ionicHistory.clearCache();
+      	
 		// Reinicio de los campos [ username, password ] 
 		// $scope.datos = {
 		// 	username: '',
