@@ -14,64 +14,62 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 		//$ionicHistory.clearHistory();
   		//$ionicHistory.clearCache();
       	
-      	//ir a la ventana main
-		$state.go('main');
 
 		/* Estructura de datos valido para iniciar
 		 * sesion dentro del sistema
 		 */
-		// var data = {
-		// 	usuario: {
-		// 		valor: datos.username					
-		// 	},
+		var data = {
+			usuario: {
+				valor: datos.username					
+			},
 
-		// 	clave: {
-		// 		valor: sigesop.SHA1( datos.password )
-		// 	}
-		// };
+			clave: {
+				valor: sigesop.SHA1( datos.password )
+			}
+		};
 
-		// // Lanzamiento de Ajax al servidor
-		// sigesop.query( $http, {
-		// 	data: data,
-		// 	type: 'POST',
-		// 	class: 'sistema',
-		// 	query: 'solicitudInicioSesion',
-		// 	queryType: 'sendGetData',
-		// 	success: function ( data ) {
-		// 		if ( sigesop.isEmptyObject( data ) ) {
-		// 			alert('Valor retornado del servidor es null');
+		// Lanzamiento de Ajax al servidor
+		sigesop.query( $http, {
+			data: data,
+			type: 'POST',
+			class: 'sistema',
+			query: 'solicitudInicioSesion',
+			queryType: 'sendGetData',
+			success: function ( data ) {
+				if ( sigesop.isEmptyObject( data ) ) {
+					alert('Valor retornado del servidor es null');
 					
-		// 			// $.unblockUI(); ---> LE FALTA BLOQUEAR PANTALLA CON IONIC
-		// 			return -1;		
-		// 		} 
+					// $.unblockUI(); ---> LE FALTA BLOQUEAR PANTALLA CON IONIC
+					return -1;		
+				} 
 		
-		// 		// CUANDO EL USUARIO NO ES VALIDO
-		// 		if ( data.estado ) {
-		// 			// FALTA TOAST CON IONIC
-		// 			// sigesop.msg( '<br><center>Acceso Autorizado</center>', '', 'success' );
+				// CUANDO EL USUARIO NO ES VALIDO
+				if ( data.estado ) {
+					// FALTA TOAST CON IONIC
+					// sigesop.msg( '<br><center>Acceso Autorizado</center>', '', 'success' );
 										
-		// 			/* ENVIO A LA SIGUIENTE VISTA						
-		// 			 */ 
+					/* ENVIO A LA SIGUIENTE VISTA						
+					 */ 
 					
-		// 			$state.go('main');
-		// 		} 
+					$state.go('main');
+				} 
 
-		// 		// CUANDO EL USUARIO NO ES VALIDO
-		// 		else {
-		// 			alert( 'Usuario inválido' );
+				// CUANDO EL USUARIO NO ES VALIDO
+				else {
+					alert( 'Usuario inválido' );
 
-		// 		}
-		// 	},
-		// 	error: function ( data ) {
-		// 		alert( 'Error ajax: ' + data );
-		// 	}
-		// });
+				}
+			},
+			error: function ( data ) {
+				alert( 'Error ajax: ' + data );
+			}
+		});
 
-		// // Reinicio de los campos [ username, password ] 
-		// $scope.datos = {
-		// 	username: '',
-		// 	password : '',
-		// };
+		// Reinicio de los campos [ username, password ] 
+		$scope.datos = {
+			username: '',
+			password : '',
+		};
 	};  
 
 	$scope.viewIpServidor = function(form) {
@@ -79,11 +77,11 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 	};
 
 	//programar el boton fisico de android
-	$ionicPlatform.registerBackButtonAction(function(e) {
-  		alert("click");
-  		ionic.Platform.exitApp();//para salir de la aplicacion
-  		e.preventDefault();
-	}, 101);
+	// $ionicPlatform.registerBackButtonAction(function(e) {
+ //  		alert("click");
+ //  		ionic.Platform.exitApp();//para salir de la aplicacion
+ //  		e.preventDefault();
+	// }, 101);
 };
 
 nameApp.controller( 'controlLogin', controlLogin );

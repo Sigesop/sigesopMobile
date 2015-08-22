@@ -1,78 +1,75 @@
 var 
 
-controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory,$ionicLoading) {
+controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory, $ionicLoading ) {
+    $scope.ip = {
+        ip1: '',
+        ip2: '',
+        ip3: '',
+        ip4: ''
+    }
 
-    // alert(sigesop.getOwnPropertyNames($ionicHistory.backView()));
     /**********************************************
      * Consulta a la tabla [server] para configurar
      * la direccion del servidor ajax
      *********************************************/
-    // var sql = "SELECT server_address, root_server FROM server";
-    // db.transaction(function ( tx ) {
-    //     tx.executeSql( sql, [], function ( tx, data ) {
-    //         var serverAddressDB = data.rows.item(0).server_address;
-    //         sigesop.ipServidor = serverAddressDB;
-    //         sigesop.raizServidor = 'http://' + serverAddressDB + '/ajax/sistema/';
-    //         $scope.serverAddress = serverAddressDB;
-    //     });
-    // }, function ( e ) {
+    var sql = "SELECT server_address, root_server FROM server";
+    db.transaction(function ( tx ) {
+        tx.executeSql( sql, [], function ( tx, data ) {
+            var 
+                serverAddressDB = data.rows.item(0).server_address,
+                regExpIP = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9s][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
 
-    // });
+            // Si es una IP fragmentamos la cadena
+            if ( regExpIP.test( serverAddressDB ) ) {
+                var arr = serverAddressDB.splitParametros( '.' );
+                
+                $scope.ip.ip1 = arr[0];
+                $scope.ip.ip2 = arr[1];
+                $scope.ip.ip3 = arr[2];
+                $scope.ip.ip4 = arr[3];
+            }
+                
+            else $scope.dominio = serverAddressDB;
 
-    // var sql = "SELECT server_address, root_server FROM server";
-    // $cordovaSQLite.execute( db, sql )
-    // .then(function ( data ){
-    //     var serverAddressDB = data.rows.item(0).server_address;
-    //     sigesop.ipServidor = serverAddressDB;
-    //     sigesop.raizServidor = 'http://' + serverAddressDB + '/ajax/sistema/';
-    //     $scope.serverAddress = serverAddressDB;
-    // }, function ( err ){
+            // configuramos la libreria
+            sigesop.ipServidor = serverAddressDB;
+            sigesop.raizServidor = 'http://' + serverAddressDB + '/ajax/sistema/';
+            
+        });
+    }, function ( e ) {
 
-    // });    
+    }); 
 
-    $scope.getIp = function ( form, serverAddress ) {
-        var
 
-        //funcion si la eliminacion de la base de datos es correcta
-        deleteServer = function( res ) {
-            alert("BASE DE DATOS LIMPIA");
+    $scope.getServer = function ( form, data ) {
+        var serverAddress;
+
+        if ( angular.isObject( data ) ) {
+            serverAddress = data.ip1 + '.' + 
+                            data.ip2 + '.' + 
+                            data.ip3 + '.' + data.ip4;
+        }
+        else serverAddress = data;
+
+        db.transaction(function ( tx ) {
+            tx.executeSql( 'DELETE FROM server', [], function ( tx, data ) {});
 
             var 
-            //generar ip concatenada
-            // ipRoot = ip.ip1 + "." + ip.ip2 + "." + ip.ip3 + "." + ip.ip4,
 
             //direccion para conexion ajax
             rootServer= "http://" + serverAddress + "/ajax/sistema/",
-
-            //funcion si el registro se inserto bien en la tabla server
-            insertServer = function(res) {
-                alert("OK REGISTRO INSERTADO (SERVER)");
-            },
-
-            //funcion si hubo errores al insertar en la tabla server
-            errorServer = function (err) {
-                alert("ERROR AL INSERTAR (SERVER)");
-
-                $scope.serverAddress = '';  
-            }, 
-
-            //insercion de datos en la base de datos
             sql = "INSERT INTO server (server_address, root_server) VALUES (?,?)";
-            $cordovaSQLite.execute(db, sql, [serverAddress,rootServer]).then( insertServer, errorServer );
-        }, 
 
-        //funcion si hubo erres al eliminar la base de datos
-        errorServer = function (err) {
-            alert("ERROR ELIMINADO BASE")
-        },
-
-        //eliminamos datos de la tabla server para que siempre los registros sean nuevos
-        //*******************************************************************************
-        sql = "DELETE FROM server";    
-        $cordovaSQLite.execute( db, sql ).then( deleteServer , errorServer );
+            tx.executeSql( sql, [serverAddress,rootServer], function ( tx, data ) {
+                alert("OK REGISTRO INSERTADO (SERVER)");
+            });
+        }, function ( e ) {
+            alert( 'Error al insertar servidor.' )
+            return true;
+        });
     };
 
-     $scope.backButton = function(form) {
+    $scope.backButton = function ( form ) {
         $state.go('login');
         
         // mostrar loading 
@@ -80,7 +77,6 @@ controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory,$ioni
         //     templateUrl:"view/templates/loading.html",
         //     duration: 5000
         // });
-
     };
 
 
