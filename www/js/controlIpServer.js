@@ -73,21 +73,13 @@ controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory,$ioni
     };
 
      $scope.backButton = function(form) {
-        // $state.go('login');
-        // $scope.lastViewTitle = $ionicHistory.backTitle();
-
-        // alert($ionicHistory.viewHistory().backView.stateName);//assign the "from" parameter to something
-        // alert(sigesop.getOwnPropertyNames($ionicHistory.viewHistory().views));
-        //console.log($ionicHistory.viewHistory().views);
-       
-        //alert($ionicHistory.viewHistory().backView.stateName);
-
-        //pruebas del template
-
-        $ionicLoading.show({
-            templateUrl:"view/templates/loading.html",
-            duration: 5000
-        });
+        $state.go('login');
+        
+        // mostrar loading 
+        // $ionicLoading.show({
+        //     templateUrl:"view/templates/loading.html",
+        //     duration: 5000
+        // });
 
     };
 

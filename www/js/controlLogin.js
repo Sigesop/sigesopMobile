@@ -11,8 +11,9 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 			return -1;
 		}
 		//eliminar el historial de navegacion de la aplicacion
-		$ionicHistory.clearHistory();
-      	$ionicHistory.clearCache();
+		//$ionicHistory.clearHistory();
+  		//$ionicHistory.clearCache();
+      	
       	//ir a la ventana main
 		$state.go('main');
 
