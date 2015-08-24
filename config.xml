@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget id="com.cfe.sigesopMobile" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Sistema de Gestión Operativa</name>
-  <description>
-        Plataforma móvil para carga de datos
+  <description>&#xD;
+        Plataforma móvil para carga de datos&#xD;
     </description>
-  <author email="" href="">
-      Cyberdyne Systems Team
+  <author email="" href="">&#xD;
+      Cyberdyne Systems Team&#xD;
     </author>
   <content src="index.html"/>
   <access origin="*"/>

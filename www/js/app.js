@@ -51,6 +51,22 @@ main = function( $ionicPlatform, $state, $ionicHistory ) {
                             "state         boolean"+ 
                         ")",
 
+        table_orden_trabajo =
+                       "CREATE TABLE IF NOT EXISTS orden_trabajo(" +
+                            "id_prog_mtto            int unsigned PRIMARY KEY," +
+                            "numero_orden            VARCHAR(30) NOT NULL," +
+                            "id_aero                 VARCHAR(50) NOT NULL," +
+                            "id_mantenimiento        VARCHAR(2) NOT NULL," +
+                            "id_orden_trabajo        int unsigned NOT NULL," +
+
+                            "nombre_mantenimiento    varchar(30) NOT NULL," +
+                            "duracion                INT UNSIGNED NOT NULL," +
+                            "magnitud_duracion       CHAR(1) NOT NULL," +
+                            "fecha_inicial           DATE NOT NULL," +
+                            "fecha_final             DATE NOT NULL," +
+                            "trabajo_solicitado      TEXT NOT NULL" +
+                        ")",
+
         user_active =    "SELECT user, password FROM sesion WHERE state = 1",
 
         server_address = "SELECT server_address, root_server FROM server";
@@ -61,6 +77,7 @@ main = function( $ionicPlatform, $state, $ionicHistory ) {
              *********************************************/
             tx.executeSql( table_server );
             tx.executeSql( table_sesion );
+            tx.executeSql( table_orden_trabajo );
 
             /**********************************************
              * Consulta a la tabla [server] para configurar
@@ -94,32 +111,6 @@ main = function( $ionicPlatform, $state, $ionicHistory ) {
             alert( 'Error en creacion de tablas. ' + e );
             return true;
         });
-
-        // db.transaction(function ( tx ) {
-        //     /**********************************************
-        //      * Consulta a la tabla [sesion] para configurar
-        //      * el inicio automatico de sesion y guardar
-        //      * [user, password] en la sesion local del navegador
-        //      *********************************************/
-        //     var user_active =    "SELECT user, password FROM sesion WHERE state = 1";
-        //     tx.executeSql( user_active, [], function ( tx, res ) {          
-        //         if ( res.rows.length > 0 ) {
-        //             //guardamos usuario actual en navegador
-        //             window.localStorage.sesion = {
-        //                 usuario: res.rows.item(0).user,
-        //                 password: res.rows.item(0).password
-        //             }
-        //             sigesop.root = '/main';
-        //         }
-
-        //         else sigesop.root = '/login';
-
-        //     });    
-        // }, function ( e ) {
-        //     alert( 'Error en ruteo. ' + e );
-        //     return true;
-        // });
-
     });
 },
 
