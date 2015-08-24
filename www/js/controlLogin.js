@@ -53,8 +53,13 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 					var sql =
 					"INSERT INTO sesion( user, password, state ) VALUES( ?, ?, 1 )";
 					db.transaction(function ( tx ){
-						tx.executeSql( sql, [ dataUser.usuario.valor, dataUser.clave.valor ] );
-						$state.go('main');	
+						tx.executeSql( sql, [ dataUser.usuario.valor, dataUser.clave.valor ], function ( tx, res ){
+							localStorage.sesion = {
+		                        usuario: dataUser.usuario.valor,
+		                        password: dataUser.clave.valor
+		                    }
+							$state.go('main');	
+						});	                    
 					}, function ( e ){
 						alert( 'Error guardando sesion. ' + e )
 					})

@@ -48,6 +48,8 @@ controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory, $ion
             sql = "INSERT INTO server (server_address, root_server) VALUES (?,?)";
 
             tx.executeSql( sql, [serverAddress,rootServer], function ( tx, data ) {
+                sigesop.ipServidor = serverAddress;
+                sigesop.raizServidor = rootServer;
                 alert("OK REGISTRO INSERTADO (SERVER)");
             });
         }, function ( e ) {

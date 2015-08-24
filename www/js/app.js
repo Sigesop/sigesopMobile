@@ -16,12 +16,14 @@ document.addEventListener("deviceready", function () {
      * rows
      * rowsAffected
      */
+    
+    sigesop.root = '';
 }, false);
 
 //confuguracion app  
 var 
 
-main = function( $ionicPlatform, $state ) {
+main = function( $ionicPlatform, $state, $ionicHistory ) {
     $ionicPlatform.ready(function() {
         if(window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar( true );
@@ -29,6 +31,9 @@ main = function( $ionicPlatform, $state ) {
         if(window.StatusBar) {
             StatusBar.styleDefault();
         }
+
+        $ionicHistory.clearHistory();
+        $ionicHistory.clearCache();
 
         /* creacion base de datos     
          * creacion modelo de tablas
@@ -78,7 +83,7 @@ main = function( $ionicPlatform, $state ) {
             tx.executeSql( user_active, [], function ( tx, res ) {          
                 if ( res.rows.length > 0 ) {
                     //guardamos usuario actual en navegador
-                    localStorage.sesion = {
+                    window.localStorage.sesion = {
                         usuario: res.rows.item(0).user,
                         password: res.rows.item(0).password
                     }
@@ -89,6 +94,32 @@ main = function( $ionicPlatform, $state ) {
             alert( 'Error en creacion de tablas. ' + e );
             return true;
         });
+
+        // db.transaction(function ( tx ) {
+        //     /**********************************************
+        //      * Consulta a la tabla [sesion] para configurar
+        //      * el inicio automatico de sesion y guardar
+        //      * [user, password] en la sesion local del navegador
+        //      *********************************************/
+        //     var user_active =    "SELECT user, password FROM sesion WHERE state = 1";
+        //     tx.executeSql( user_active, [], function ( tx, res ) {          
+        //         if ( res.rows.length > 0 ) {
+        //             //guardamos usuario actual en navegador
+        //             window.localStorage.sesion = {
+        //                 usuario: res.rows.item(0).user,
+        //                 password: res.rows.item(0).password
+        //             }
+        //             sigesop.root = '/main';
+        //         }
+
+        //         else sigesop.root = '/login';
+
+        //     });    
+        // }, function ( e ) {
+        //     alert( 'Error en ruteo. ' + e );
+        //     return true;
+        // });
+
     });
 },
 
@@ -122,8 +153,7 @@ config = function ( $stateProvider, $urlRouterProvider, $httpProvider ) {
             controller: 'controlMain'
         });
 
- 
-    $urlRouterProvider.otherwise("/login");
+    $urlRouterProvider.otherwise( '/login' );
 },
 
 nameApp =   

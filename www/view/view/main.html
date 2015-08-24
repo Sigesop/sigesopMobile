@@ -12,12 +12,13 @@
  			<ion-content class="padding">
 		 		<div class="list">
 			        <a ng-repeat="item in items" 
-			           href="#/{{item.id}}"
+			           href="#/{{item.id_prog_mtto}}"
 			           class="item item-thumbnail-left">
 
-			          <img ng-src="{{ item.image }}">
-			          <h2>{{ item.album }}</h2>
-			          <h4>{{ item.artist }}</h4>
+			          <img ng-src="{{ imagen }}">
+			          <h1>{{ item.nombre_mantenimiento }}</h1>
+			          <h2>{{ item.orden_trabajo_personal.supervisor }}</h2>
+			          <h3>{{ item.trabajo_solicitado }}</h3>
 			        </a>
 		      	</div>
 		    </ion-content>
@@ -35,12 +36,6 @@
 					</ion-item>
 					<ion-item menu-close ng-click="cambiarUsuario()">
 						Cambiar de usuario
-					</ion-item>
-					<ion-item menu-close ng-click="cambiarIp()">
-						Cambiar de IP
-					</ion-item>
-					<ion-item menu-close ng-click="cambiarDireccion()">
-						Cambiar de Dirección
 					</ion-item>
 				</ion-list>
     		</ion-content>
