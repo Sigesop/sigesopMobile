@@ -20,10 +20,32 @@ document.addEventListener("deviceready", function () {
     sigesop.root = '';
 }, false);
 
+// AngularJS service for setting and retrieving strings or objects
+angular.module( 'ionic.utils', [])
+.factory( '$localStorage', ['$window', function( $window ) {
+        return {
+            set: function(key, value) {
+                $window.localStorage[key] = value;
+            },
+            get: function(key, defaultValue) {
+                return $window.localStorage[key] || defaultValue;
+            },
+            delete: function ( key ) {
+                delete $window.localStorage[ key ];
+            },
+            setObject: function(key, value) {
+                $window.localStorage[key] = JSON.stringify(value);
+            },
+            getObject: function(key) {
+                return JSON.parse($window.localStorage[key] || '{}');
+            }
+        }
+}]);
+
 //confuguracion app  
 var 
 
-main = function( $ionicPlatform, $state, $ionicHistory ) {
+main = function( $ionicPlatform, $state, $ionicHistory, $localStorage, $ionicLoading) {
     $ionicPlatform.ready(function() {
         if(window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar( true );
@@ -32,8 +54,13 @@ main = function( $ionicPlatform, $state, $ionicHistory ) {
             StatusBar.styleDefault();
         }
 
-        $ionicHistory.clearHistory();
-        $ionicHistory.clearCache();
+        sigesop.loading = $ionicLoading.show({
+            template: '<p class="load item-icon-center">LOADING <ion-spinner icon="lines"/></p>',
+            duration: 3000
+        });
+
+        // $ionicHistory.clearHistory();
+        // $ionicHistory.clearCache();
 
         /* creacion base de datos     
          * creacion modelo de tablas
@@ -100,12 +127,14 @@ main = function( $ionicPlatform, $state, $ionicHistory ) {
             tx.executeSql( user_active, [], function ( tx, res ) {          
                 if ( res.rows.length > 0 ) {
                     //guardamos usuario actual en navegador
-                    window.localStorage.sesion = {
+                    $localStorage.setObject( 'sesion', {
                         usuario: res.rows.item(0).user,
                         password: res.rows.item(0).password
-                    }
-                    $state.go('main');
+                    });
+                    $state.go('main');                    
                 } 
+
+                sigesop.loading.hide();
             });
         }, function ( e ) {
             alert( 'Error en creacion de tablas. ' + e );
@@ -114,7 +143,7 @@ main = function( $ionicPlatform, $state, $ionicHistory ) {
     });
 },
 
-config = function ( $stateProvider, $urlRouterProvider, $httpProvider ) {
+config = function ( $stateProvider, $urlRouterProvider, $httpProvider) {
     /* Configuracion de QueryString para comunicacion ajax con PHP  
     */ 
     // Use x-www-form-urlencoded Content-Type
@@ -131,7 +160,13 @@ config = function ( $stateProvider, $urlRouterProvider, $httpProvider ) {
         .state('login', {
             url: '/login',
             templateUrl: 'view/view/login.html',
-            controller: 'controlLogin'
+            controller: 'controlLogin',
+            onEnter: function ( $ionicLoading ) {
+                // $ionicLoading.show({
+                //     template: '<p class="load item-icon-center">LOADING <ion-spinner icon="lines"/></p>',
+                //     duration: 3000
+                // });
+            }
         })
         .state('ipServer', {
             url: '/ipServer',
@@ -149,7 +184,7 @@ config = function ( $stateProvider, $urlRouterProvider, $httpProvider ) {
 
 nameApp =   
     angular
-    .module('starter', ['ionic', 'ngCordova','ngMessages'])
+    .module('starter', ['ionic', 'ionic.utils', 'ngCordova','ngMessages'])
     .run( main );
 
 //configuracion de ventanas con controladores

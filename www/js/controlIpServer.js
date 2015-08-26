@@ -8,6 +8,10 @@ controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory, $ion
         ip4: ''
     }
 
+    $scope.dominio = {
+        dominio1: ''
+    }
+
     /**********************************************
      * fill data boxes
      *********************************************/
@@ -25,18 +29,18 @@ controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory, $ion
         $scope.ip.ip4 = arr[3];
     }
         
-    else $scope.dominio = serverAddressDB;
+    else $scope.dominio.dominio1 = serverAddressDB;
 
     // click event for get data from views
     $scope.getServer = function ( form, data ) {
         var serverAddress;
 
-        if ( angular.isObject( data ) ) {
+        if ( sigesop.isEmptyObject( data.dominio1 ) ) {
             serverAddress = data.ip1 + '.' + 
                             data.ip2 + '.' + 
                             data.ip3 + '.' + data.ip4;
         }
-        else serverAddress = data;
+        else serverAddress = data.dominio1;
 
         db.transaction(function ( tx ) {
             tx.executeSql( 'DELETE FROM server', [], function ( tx, data ) {});
@@ -67,6 +71,17 @@ controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory, $ion
         //     templateUrl:"view/templates/loading.html",
         //     duration: 5000
         // });
+    };
+
+    $scope.focusIp = function () {
+        $scope.dominio.dominio1 = '';
+    };
+
+    $scope.focusDominio = function () {
+        $scope.ip.ip1 = '';
+        $scope.ip.ip2 = '';
+        $scope.ip.ip3 = '';
+        $scope.ip.ip4 = '';
     };
 }
 

@@ -1,6 +1,6 @@
 var 
 
-controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, $ionicPlatform) {
+controlLogin = function ( $scope, $state, $http, $ionicHistory, $ionicPlatform, $localStorage, $ionicLoading) {
 	$scope.datos = {
 		username: '',
 		password : '',
@@ -10,7 +10,7 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 	 * y nos saltamos la vista de login	
 	 */
 
-	$scope.getDatos = function(form, datos) {
+	$scope.getDatos = function( form, datos ) {
 		if( !form.$valid ) {
 			return -1;
 		}
@@ -54,11 +54,14 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 					"INSERT INTO sesion( user, password, state ) VALUES( ?, ?, 1 )";
 					db.transaction(function ( tx ){
 						tx.executeSql( sql, [ dataUser.usuario.valor, dataUser.clave.valor ], function ( tx, res ){
-							localStorage.sesion = {
-		                        usuario: dataUser.usuario.valor,
-		                        password: dataUser.clave.valor
-		                    }
-							$state.go('main');	
+		                    //guardamos usuario actual en navegador
+		                    $localStorage.setObject( 'sesion', {
+		                    	usuario: dataUser.usuario.valor,
+		                    	password: dataUser.clave.valor
+		                    });
+		                    $ionicHistory.clearHistory();
+        					$ionicHistory.clearCache();
+							$state.go('main');
 						});	                    
 					}, function ( e ){
 						alert( 'Error guardando sesion. ' + e )
@@ -87,16 +90,18 @@ controlLogin = function ( $scope, $state, $http, $cordovaSQLite, $ionicHistory, 
 		// };
 	};  
 
-	$scope.viewIpServidor = function(form) {
+	$scope.viewIpServidor = function( form ) {
 		$state.go('ipServer');
 	};
 
-	//programar el boton fisico de android
-	// $ionicPlatform.registerBackButtonAction(function(e) {
- //  		alert("click");
- //  		ionic.Platform.exitApp();//para salir de la aplicacion
- //  		e.preventDefault();
-	// }, 101);
+	// programar el boton fisico de android
+	$ionicPlatform.registerBackButtonAction(function(e) {
+        $ionicHistory.clearHistory();
+        $ionicHistory.clearCache();
+
+  		ionic.Platform.exitApp();//para salir de la aplicacion
+  		e.preventDefault();
+	}, 101);
 };
 
 nameApp.controller( 'controlLogin', controlLogin );

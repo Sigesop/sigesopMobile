@@ -15,6 +15,8 @@ sigesop = {
 
 	root: '/login',
 
+	sesion: {},
+
 	/**
 	* The workhorse; converts an object to x-www-form-urlencoded serialization.
 	* @param {Object} obj
@@ -61,6 +63,11 @@ sigesop = {
 		 * beforeSend
 		 * error
 		 */
+
+		if ( !this.raizServidor ) {
+			alert( 'Servidor no definido!!!' );
+			return;
+		}
 
 		opt.file = opt.file || 'ajax';
 		opt.queryType = opt.queryType || 'getData';
