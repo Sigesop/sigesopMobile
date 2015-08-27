@@ -8,38 +8,22 @@ nameApp.controller('controlMain', function ( $scope, $state ,$ionicPopup, $timeo
 	$scope.init = function () {
 		var sesion = $localStorage.getObject( 'sesion' );
 		$scope.sesion = sesion;
-		sigesop.query( $http, {
-			data: { usuario: sesion.usuario },		
-			class: 'mantenimiento',
-			query: 'obtenerOrdenTrabajo',
-			queryType: 'sendGetData',
-			success: function ( data ) {
-				$scope.imagen = sigesop.icono;
-				// $scope.items = {};
-			  	// $scope.items = data;
 
-				var applyFn = function () {
-					$scope.items = data;
+		if ( sigesop.networkState ) {
+			sigesop.query( $http, {
+				data: { usuario: sesion.usuario },		
+				class: 'mantenimiento',
+				query: 'obtenerOrdenTrabajo',
+				queryType: 'sendGetData',
+				success: function ( data ) {
+					$scope.imagen = sigesop.icono;
+				  	$scope.items = data;
+				},
+				error: function ( data ) {
+					alert( 'Error ajax: obtenerOrdenTrabajo. ' + data );
 				}
-
-				if ($scope.$$phase) { // most of the time it is "$digest"
-					applyFn();
-				} else {
-					$scope.$apply(applyFn);
-				}
-
-			  	// $scope.$apply();
-			  	// $scope.items = [
-			   //  	{ id_prog_mtto: 1, nombre_mantenimiento: 'MANTENIMIENTO SEMESTRAL', trabajo_solicitado: 'REVISIÓN DE ESTADO', numero_orden: '1V-01MS', imagen: sigesop.icono },
-			   //  	{ id_prog_mtto: 2, nombre_mantenimiento: 'MANTENIMIENTO SEMESTRAL', trabajo_solicitado: 'REVISIÓN DE ESTADO', numero_orden: '1V-02MS', imagen: sigesop.icono },
-			   //  	{ id_prog_mtto: 3, nombre_mantenimiento: 'MANTENIMIENTO SEMESTRAL', trabajo_solicitado: 'REVISIÓN DE ESTADO', numero_orden: '1V-03MS', imagen: sigesop.icono },
-			   //  	{ id_prog_mtto: 4, nombre_mantenimiento: 'MANTENIMIENTO SEMESTRAL', trabajo_solicitado: 'REVISIÓN DE ESTADO', numero_orden: '1V-04MS', imagen: sigesop.icono }
-			  	// ];
-			},
-			error: function ( data ) {
-				alert( 'Error ajax: obtenerOrdenTrabajo. ' + data );
-			}
-		});
+			});
+		}
 	};
 
 	$scope.toggleLeft = function (){
@@ -84,4 +68,6 @@ nameApp.controller('controlMain', function ( $scope, $state ,$ionicPopup, $timeo
 	      	timeOut: $timeout
 	    });
   	}; 
+
+  	$scope.init();
 });

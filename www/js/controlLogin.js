@@ -1,6 +1,6 @@
 var 
 
-controlLogin = function ( $scope, $state, $http, $ionicHistory, $ionicPlatform, $localStorage, $ionicLoading) {
+controlLogin = function ( $scope, $state, $http, $ionicHistory, $ionicPlatform, $localStorage, $ionicLoading ) {
 	$scope.datos = {
 		username: '',
 		password : '',
@@ -95,13 +95,13 @@ controlLogin = function ( $scope, $state, $http, $ionicHistory, $ionicPlatform, 
 	};
 
 	// programar el boton fisico de android
-	$ionicPlatform.registerBackButtonAction(function(e) {
-        $ionicHistory.clearHistory();
-        $ionicHistory.clearCache();
+	// $ionicPlatform.registerBackButtonAction(function(e) {
+ //        $ionicHistory.clearHistory();
+ //        $ionicHistory.clearCache();
 
-  		ionic.Platform.exitApp();//para salir de la aplicacion
-  		e.preventDefault();
-	}, 101);
+ //  		ionic.Platform.exitApp();//para salir de la aplicacion
+ //  		e.preventDefault();
+	// }, 101);
 };
 
 nameApp.controller( 'controlLogin', controlLogin );
