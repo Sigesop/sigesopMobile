@@ -24,7 +24,7 @@ controlLogin = function ( $scope, $state, $http, $ionicHistory, $ionicPlatform, 
 			},
 
 			clave: {
-				valor: sigesop.SHA1( datos.password )
+				valor: datos.password.SHA1()
 			}
 		};
 
@@ -55,10 +55,10 @@ controlLogin = function ( $scope, $state, $http, $ionicHistory, $ionicPlatform, 
 					db.transaction(function ( tx ){
 						tx.executeSql( sql, [ dataUser.usuario.valor, dataUser.clave.valor ], function ( tx, res ){
 		                    //guardamos usuario actual en navegador
-		                    $localStorage.setObject( 'sesion', {
+		                    sigesop.sesion = {
 		                    	usuario: dataUser.usuario.valor,
 		                    	password: dataUser.clave.valor
-		                    });
+		                    }
 		                    $ionicHistory.clearHistory();
         					$ionicHistory.clearCache();
 							$state.go('main');

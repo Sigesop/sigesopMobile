@@ -66,6 +66,11 @@ sigesop = {
 		 * error
 		 */
 
+		if ( !this.networkState ) {
+			alert('Error!!! Verifique su conexión de red');
+			return;
+		}
+
 		if ( !this.raizServidor ) {
 			alert( 'Servidor no definido!!!' );
 			return;
@@ -129,7 +134,7 @@ sigesop = {
 		error = function( data, status, headers, config, statusText ) {
 			// sigesop.msgBlockUI( 'Comunicación al servidor abortada', 'error' );
 			console.log( "Funcion: " + opt.query + "()\n" + "Estado: " + status + "\nError: " + statusText );
-			typeof opt.error !== 'undefined' ? opt.error() : null;
+			typeof opt.error !== 'undefined' ? opt.error( data ) : null;
 		};
 
 		/* Concatenamos los datos al query string si se trata de

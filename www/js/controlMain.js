@@ -1,4 +1,4 @@
-nameApp.controller('controlMain', function ( $scope, $state ,$ionicPopup, $timeout, $ionicSideMenuDelegate, $ionicHistory, $http, $localStorage ) {	
+nameApp.controller('controlMain', function ( $scope, $state ,$ionicPopup, $timeout, $ionicSideMenuDelegate, $ionicHistory, $http ) {
 	$scope.items = [];
 	$scope.sesion = {
 		usuario: '',
@@ -6,12 +6,11 @@ nameApp.controller('controlMain', function ( $scope, $state ,$ionicPopup, $timeo
 	};
 
 	$scope.init = function () {
-		var sesion = $localStorage.getObject( 'sesion' );
-		$scope.sesion = sesion;
+		$scope.sesion = sigesop.sesion;
 
-		if ( sigesop.networkState ) {
+		if ( sigesop.sesion.usuario && sigesop.networkState ) {
 			sigesop.query( $http, {
-				data: { usuario: sesion.usuario },		
+				data: { usuario: sigesop.sesion.usuario },		
 				class: 'mantenimiento',
 				query: 'obtenerOrdenTrabajo',
 				queryType: 'sendGetData',
@@ -36,7 +35,7 @@ nameApp.controller('controlMain', function ( $scope, $state ,$ionicPopup, $timeo
 		// "UPDATE sesion SET state = 0 WHERE state = 1";
 		db.transaction(function ( tx ){
 			tx.executeSql( sql, [], function ( res ){
-				$localStorage.delete( 'sesion' );
+				sigesop.sesion = {};
 				$ionicHistory.clearHistory();
         		$ionicHistory.clearCache();
 				$state.go('login');

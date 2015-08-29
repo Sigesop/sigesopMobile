@@ -171,8 +171,6 @@ angular.extend( String.prototype,
 );
 
 document.addEventListener("deviceready", function () {
-    db = window.sqlitePlugin.openDatabase({name: "cfe.db"});
-
     /* Propiedades de Tx
      * db
      * error
@@ -189,7 +187,7 @@ document.addEventListener("deviceready", function () {
      * rowsAffected
      */
     
-    sigesop.root = '';
+    db = window.sqlitePlugin.openDatabase({name: "cfe.db"});    
 }, false);
 
 // AngularJS service for setting and retrieving strings or objects
@@ -217,19 +215,19 @@ angular.module( 'ionic.utils', [])
 //confuguracion app  
 var 
 
-main = function( $ionicPlatform, $state, $ionicHistory, $localStorage, $ionicLoading, $rootScope, $cordovaNetwork ) {
+main = function( $ionicPlatform, $state, $ionicHistory, $ionicLoading, $rootScope, $cordovaNetwork ) {
     $ionicPlatform.ready(function() {
         if(window.cordova && window.cordova.plugins.Keyboard) {
             cordova.plugins.Keyboard.hideKeyboardAccessoryBar( true );
         }
         if(window.StatusBar) {
             StatusBar.styleDefault();
-        }
+        }        
 
-        sigesop.loading = $ionicLoading.show({
-            template: '<p class="load item-icon-center">LOADING <ion-spinner icon="lines"/></p>',
-            duration: 3000
-        });
+        // sigesop.loading = $ionicLoading.show({
+        //     template: '<p class="load item-icon-center">LOADING <ion-spinner icon="lines"/></p>',
+        //     duration: 3000
+        // });
 
         // $ionicHistory.clearHistory();
         // $ionicHistory.clearCache();
@@ -299,14 +297,16 @@ main = function( $ionicPlatform, $state, $ionicHistory, $localStorage, $ionicLoa
             tx.executeSql( user_active, [], function ( tx, res ) {          
                 if ( res.rows.length > 0 ) {
                     //guardamos usuario actual en navegador
-                    $localStorage.setObject( 'sesion', {
+                    sigesop.sesion = {
                         usuario: res.rows.item(0).user,
                         password: res.rows.item(0).password
-                    });
-                    $state.go('main');                    
-                } 
+                    }
+                    $state.go('main');                 
+                }
 
-                sigesop.loading.hide();
+                else $state.go('login');
+
+                // sigesop.loading.hide();
             });
         }, function ( e ) {
             alert( 'Error en creacion de tablas. ' + e );
@@ -331,7 +331,7 @@ main = function( $ionicPlatform, $state, $ionicHistory, $localStorage, $ionicLoa
     }, false);
 },
 
-config = function ( $stateProvider, $urlRouterProvider, $httpProvider) {
+config = function ( $stateProvider, $urlRouterProvider, $httpProvider ) {
     /* Configuracion de QueryString para comunicacion ajax con PHP  
     */ 
     // Use x-www-form-urlencoded Content-Type
@@ -344,6 +344,15 @@ config = function ( $stateProvider, $urlRouterProvider, $httpProvider) {
 
     /* Configuracion de ruteo de transiciones
     */
+    // db.transaction(function ( tx ) {
+    //     tx.executeSql( 'SELECT user FROM sesion WHERE state = 1', [], function ( res ) {
+    //         if ( res.rows.length > 0 ) sigesop.root = '/main';
+    //         else sigesop.root = '/login';
+    //     });
+    // }, function ( e ) {
+
+    // });
+
     $stateProvider
         .state('login', {
             url: '/login',
@@ -367,7 +376,7 @@ config = function ( $stateProvider, $urlRouterProvider, $httpProvider) {
             controller: 'controlMain'
         });
 
-    $urlRouterProvider.otherwise( '/login' );
+    // $urlRouterProvider.otherwise( '/login' );
 },
 
 nameApp =   
