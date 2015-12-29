@@ -1,0 +1,29 @@
+<style type="text/css">
+/* Autoajusta el tamaño del la ventana del popover
+ * en base a los elementos agregados
+ */
+.popover {
+    height: auto !important;
+}
+.popover ion-header-bar {
+    position: relative;
+}
+.popover ion-content {
+    top: 0;
+    position: relative;;
+}
+</style>
+<ion-popover-view>
+<!--     <ion-header-bar> 
+        <h1 class="title">My Popover Title</h1>
+    </ion-header-bar> -->
+
+    <ion-content>    
+        <div class="list">
+            <button class="item" ng-click="guardarCambios()" href="#">
+                <i class="icon ion-android-done"></i>
+                Guardar cambios
+            </button>
+        </div>
+    </ion-content>
+</ion-popover-view>

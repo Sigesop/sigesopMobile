@@ -1,29 +1,5 @@
 <ion-view class="body-main cfe-texto-blanco text-center" view-title="main">
 	<ion-side-menus>
-		<ion-side-menu-content>
-			<ion-header-bar class="cfe-verde" align-title="center">
-				<div class"buttons">
-					<button class="button icon button-clear ion-navicon-round" ng-click="toggleLeft()"> </button>
-				</div>
-				<h1 class="title h1-main cfe-texto-blanco">Sistema de Gestión Operativa</h1>
-			</ion-header-bar>
-
- 			<ion-content class="padding">
-		 		<div class="list">
-			        <a ng-repeat="item in items" 
-			           href="#/{{item.id_prog_mtto}}"
-			           class="item item-thumbnail-left">
-
-			          <img ng-src="{{ imagen }}">
-			          <h1>{{ item.nombre_mantenimiento }}</h1>
-			          <h2>{{ item.orden_trabajo_personal.supervisor }}</h2>
-			          <h3>{{ item.trabajo_solicitado }}</h3>
-			        </a>
-		      	</div>
-		    </ion-content>
-
-		</ion-side-menu-content>
-		
 		<ion-side-menu side="left">
 		    <ion-header-bar class="cfe-verde-2" align-title="center">
 		      <h1 class="title h1-main cfe-texto-blanco">Opciones</h1>
@@ -32,6 +8,10 @@
 				<ion-list>
 					<ion-item menu-close>
 						<h2><b>Sesión: {{sesion.usuario}}</b></h2>
+						<h2><b>Servidor: {{servidor}}</b></h2>
+					</ion-item>
+					<ion-item menu-close ng-click="ordenesCapturadas()">
+						Ordenes capturadas
 					</ion-item>
 					<ion-item menu-close ng-click="cerrarSesion()">
 						Cerrar Sesión
@@ -42,14 +22,48 @@
 				</ion-list>
     		</ion-content>
   		</ion-side-menu>
-	</ion-side-menus>						
 
-</ion-view> 
+		<ion-side-menu-content>
+			<ion-header-bar class="cfe-verde" align-title="center">
+				<div class="buttons">
+					<button class="button icon button-clear ion-navicon-round" ng-click="toggleLeft()"> </button>
+				</div>
 
+				<h1 class="title h1-main cfe-texto-blanco"></h1>
+				
+				<div class="buttons">
+					<button class="button icon-left ion-loop button-clear button-dark" ng-click="init()">Sync</button>
+				</div>
 
+				<div class="buttons">
+					<button
+						class="button icon-left ion-arrow-swap button-clear button-calm"
+						ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}"
+						ng-show="onlineShow()"
+						>Online
+					</button>
+					<button
+						class="button icon-left ion-android-cancel button-clear button-assertive"
+						ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}"
+						ng-show="onlineHide()"
+						>Offline
+					</button>
+				</div>
+			</ion-header-bar>
 
+ 			<ion-content class="">
+		 		<div class="list card">
+			        <a ng-repeat="item in items"			           
+			           class="item item-thumbnail-left item-text-wrap"
+			           on-hold="onHold( item.id_prog_mtto )">
 
-
-
-
-
+			          <img ng-src="{{ imagen }}">
+			          <h2>{{ item.nombre_mantenimiento }}</h2>
+			          <h3>{{ item.orden_trabajo_personal.supervisor }}</h3>
+			          <h4>{{ item.trabajo_solicitado }}</h4>
+			        </a>
+		      	</div>
+		    </ion-content>
+		</ion-side-menu-content>
+	</ion-side-menus>
+</ion-view>

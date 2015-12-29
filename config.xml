@@ -8,6 +8,7 @@
       Cyberdyne Systems Team&#xD;
     </author>
   <content src="index.html"/>
+  <allow-navigation href="*"/>
   <access origin="*"/>
   <preference name="webviewbounce" value="false"/>
   <preference name="UIWebViewBounce" value="false"/>
@@ -20,6 +21,7 @@
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
   <platform name="android">
+    <preference name="AndroidExtraFilesystems" value="files,files-external,documents,sdcard,cache,cache-external,root"/>
     <icon src="resources/android/icon/eolo-ldpi-icon.png" density="ldpi"/>
     <icon src="resources/android/icon/eolo-mdpi-icon.png" density="mdpi"/>
     <icon src="resources/android/icon/eolo-hdpi-icon.png" density="hdpi"/>

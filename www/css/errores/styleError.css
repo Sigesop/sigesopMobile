@@ -73,3 +73,27 @@
   background: #DFF0D8;
 }
 /************************************************/
+
+.has-errors {
+  /*border-bottom: 3px solid #B83E2C;*/
+  outline: none;
+  border-color: #ed9ea3;
+  box-shadow: 0 0 10px #ed9ea3;
+  background: #F2DEDE;
+}
+
+.no-errors {
+  /*border-bottom: 3px solid #B83E2C;*/
+  outline: none;
+  border-color: #a3ed9e;
+  box-shadow: 0 0 10px #a3ed9e;
+  background: #DFF0D8;
+}
+
+.has-empty {
+  /*border-bottom: 3px solid #B83E2C;*/
+  outline: none;
+  border-color: #F3F781;
+  box-shadow: 0 0 10px #F3F781;
+  background: #F3F781;
+}

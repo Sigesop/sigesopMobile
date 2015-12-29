@@ -1,0 +1,22 @@
+<ion-view class=" cfe-texto-blanco text-center" view-title="equiposView">
+    <ion-header-bar class="cfe-verde" align-title="center">
+        <div class"buttons">
+            <button class="button icon button-clear ion-ios-arrow-back" ng-click="backButton()"> Regresar</button>
+        </div>
+        <h1 class="title h1-main cfe-texto-blanco">Equipos</h1>
+    </ion-header-bar>
+
+	<ion-content class="">
+ 		<div class="list card" ng-repeat="item in items" ng-click="clickEquipo( $checklist.id_prog_mtto, item.id_equipo_aero, item.nombre_equipo_aero )">
+			<div class="item item-icon-left">
+				<i class="icon ion-clipboard"></i>
+				<h1></h1>
+				<span class="badge badge-assertive">{{item.elements}}</span>
+			</div>
+
+			<div class="item item-body">					
+				<p>{{item.nombre_equipo_aero}}</p>
+			</div>
+      	</div>
+    </ion-content>
+</ion-view>

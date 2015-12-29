@@ -1,0 +1,141 @@
+<ion-view class=" cfe-texto-blanco text-center" view-title="actividadesView">
+    <ion-header-bar class="cfe-verde" align-title="center">
+        <div class="buttons">
+            <button class="button icon button-clear ion-ios-arrow-back" ng-click="backButton()"> Regresar</button>
+        </div>
+        <h1 class="title h1-main cfe-texto-blanco">Actividades</h1>
+        <div class="buttons">
+            <button class="button button-icon ion-more" ng-click="options.show($event)"></button>
+        </div>
+    </ion-header-bar>
+
+	<ion-content class="">
+        <div class="list card" ng-repeat="item in items">
+            <div class="item item-body">
+                <h2><b>ACTIVIDAD:</b></h2>
+                <div class="item-divider">
+                    <p>{{item.actividad_verificar}}</p>
+                </div>
+            </div>
+
+            <div class="item item-body">
+                <h2><b>PARAMETRO DE ACEPTACIÓN:</b></h2>
+                <div class="list">
+                    <div ng-repeat="param in item.parametro_actividad" class="item-divider">
+                        <p ng-if="param.tipo_dato == 'TEXTO'">
+                            {{param.parametro}}
+                        </p>
+
+                        <p ng-if="param.tipo_dato == 'COMPARACION'">
+                            {{param.parametro}} {{param.dato}} {{param.unidad_medida}}
+                        </p>
+
+                        <p ng-if="param.tipo_dato == 'TOLERANCIA'">
+                            {{param.parametro}} {{param.dato}} +- {{param.tolerancia}} {{param.unidad_medida}}
+                        </p>
+
+                        <p ng-if="param.tipo_dato == 'RANGO'">
+                            {{param.parametro}} {{param.dato_inferior}} - {{param.dato_superior}} {{param.unidad_medida}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item item-body row responsive-sm">
+                <!-- ELEMENTOS DE LECTURA ACTUAL -->
+                <div class="list col col-50">
+                    <h2><b>LECTURA ACTUAL</b></h2>
+
+                    <label ng-repeat="la in item.lectura_actual" class="item item-input item-stacked-label">
+                        <div class="item" ng-if="la.tipo_dato == 'Datos'">
+                            <p>{{la.parametro}}</p>
+                            <input
+                                ng-model="la.dato_capturado"
+                                type="tel"
+                                placeholder="Ingresar dato aqui..."
+                                ng-class="{ 'no-errors' : la.dato_capturado, 'has-errors' : !la.dato_capturado}"
+                                ng-pattern="/^-?\d+\.?\d+$/">
+                        </div>
+
+                        <div class="item" ng-if="la.tipo_dato == 'Binario'">
+                            <p>{{la.parametro}}</p>
+                            <ion-list>
+                                <ion-radio ng-class="{ 'no-errors' : la.dato_capturado, 'has-errors' : !la.dato_capturado}" name="lectura_actual_{{la.id_actividad}}_{{la.id}}" ng-model="la.dato_capturado" ng-value="'SI'">SI</ion-radio>
+                                <ion-radio ng-class="{ 'no-errors' : la.dato_capturado, 'has-errors' : !la.dato_capturado}" name="lectura_actual_{{la.id_actividad}}_{{la.id}}" ng-model="la.dato_capturado" ng-value="'NO'">NO</ion-radio>
+                            </ion-list>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- ELEMENTOS DE LECTURA POSTERIOR -->
+                <div class="list col col-50">
+                    <h2><b>LECTURA POSTERIOR</b></h2>
+                    <label ng-repeat="lp in item.lectura_posterior" class="item item-input item-stacked-label">
+                        <div class="item" ng-if="lp.tipo_dato == 'Datos'">
+                            <p>{{lp.parametro}}</p>
+                            <input
+                                ng-model="lp.dato_capturado"
+                                type="tel"
+                                placeholder="Ingresar dato aqui..."
+                                ng-class="{ 'no-errors' : lp.dato_capturado, 'has-errors' : !lp.dato_capturado}"
+                                ng-pattern="/^-?\d+\.?\d+$/">
+                        </div>
+
+                        <div class="item" ng-if="lp.tipo_dato == 'Binario'">
+                            <p>{{lp.parametro}}</p>
+                            <ion-list>
+                                <ion-radio ng-class="{ 'no-errors' : lp.dato_capturado, 'has-errors' : !lp.dato_capturado}" name="lectura_posterior_{{lp.id_actividad}}_{{lp.id}}" ng-model="lp.dato_capturado" ng-value="'SI'">SI</ion-radio>
+                                <ion-radio ng-class="{ 'no-errors' : lp.dato_capturado, 'has-errors' : !lp.dato_capturado}" name="lectura_posterior_{{lp.id_actividad}}_{{lp.id}}" ng-model="lp.dato_capturado" ng-value="'NO'">NO</ion-radio>
+                            </ion-list>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="item item-body row responsive-sm responsive-md responsive-lg">
+                <div class="list col">
+                    <label class="item-input">
+                        <div class="item col">
+                            <textarea
+                                rows="7"
+                                ng-model="item.observaciones"
+                                placeholder="Observaciones...">
+                            </textarea>
+                        </div>
+                    </label>
+                    <!-- <button ng-click ="takePhoto( item.id_actividad_verificar )" class="button button-clear icon ion-ios-camera-outline"> Capturar fotografía</button> -->
+                </div>
+
+                <!-- LISTA DE IMAGENES CAPTURADAS -->
+                <div ng-if="item.imagenes" class="list col">
+                        <a ng-repeat="imagen in item.imagenes"                       
+                           class="item item-text-wrap"
+                           style="height: 250px">
+
+                            <img class="col"
+                                style="width: 100%;max-height: 100%"                                
+                                ng-src="{{imagen}}">
+                        </a>
+                </div>
+
+                <div class="list col">
+                    <button ng-click ="takePhoto( item.id_actividad_verificar )" class="button button-clear icon ion-ios-camera-outline"> Capturar fotografía</button>
+                </div>
+
+<!--                 <ion-content ng-if="item.imagenes" class="list col">
+                    <div class="list card">
+                        <a ng-repeat="imagen in item.imagenes"                       
+                           class="item item-thumbnail-left item-text-wrap">
+
+                          <img ng-src="{{ imagen }}">
+                          <h2>{{ item.nombre_mantenimiento }}</h2>
+                          <h3>{{ item.orden_trabajo_personal.supervisor }}</h3>
+                          <h4>{{ item.trabajo_solicitado }}</h4>
+                        </a>
+                    </div>
+                </ion-content> -->
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

@@ -1,6 +1,4 @@
-var 
-
-controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory, $ionicLoading ) {
+sigesopMobile.controller( 'ipServerController', function ( $scope, $sigesop, $state, $cordovaSQLite, $ionicHistory, $ionicLoading ) {
     $scope.ip = {
         ip1: '',
         ip2: '',
@@ -17,7 +15,7 @@ controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory, $ion
      *********************************************/
     var 
         regExpIP = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9s][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/,
-        serverAddressDB = sigesop.ipServidor || '';
+        serverAddressDB = $sigesop.ipServidor || '';
 
     // Si es una IP fragmentamos la cadena
     if ( regExpIP.test( serverAddressDB ) ) {
@@ -35,7 +33,7 @@ controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory, $ion
     $scope.getServer = function ( form, data ) {
         var serverAddress;
 
-        if ( sigesop.isEmptyObject( data.dominio1 ) ) {
+        if ( $sigesop.isEmptyObject( data.dominio1 ) ) {
             serverAddress = data.ip1 + '.' + 
                             data.ip2 + '.' + 
                             data.ip3 + '.' + data.ip4;
@@ -52,9 +50,12 @@ controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory, $ion
             sql = "INSERT INTO server (server_address, root_server) VALUES (?,?)";
 
             tx.executeSql( sql, [serverAddress,rootServer], function ( tx, data ) {
-                sigesop.ipServidor = serverAddress;
-                sigesop.raizServidor = rootServer;
-                alert("OK REGISTRO INSERTADO (SERVER)");
+                $sigesop.ipServidor = serverAddress;
+                $sigesop.raizServidor = rootServer;
+                $sigesop.alert({
+                    title   : 'Servidor guardado...'
+                    // subtitle: 'Servidor guardado...'
+                });                
             });
         }, function ( e ) {
             alert( 'Error al insertar servidor.' )
@@ -83,7 +84,5 @@ controlIpServer = function ( $scope, $state, $cordovaSQLite, $ionicHistory, $ion
         $scope.ip.ip3 = '';
         $scope.ip.ip4 = '';
     };
-}
-
-nameApp.controller( 'controlIpServer', controlIpServer );
+});
 
